@@ -31,7 +31,7 @@ function leave() {
         </ul>
       </v-card-text>
       <v-card-actions>
-        <v-btn color="primary" @click="start()">Start</v-btn>
+        <v-btn color="primary" @click="start()" :disabled="gameSessionStore.players.length < 2">Start</v-btn>
         <v-btn @click="leave()">Leave</v-btn>
       </v-card-actions>
     </v-card>

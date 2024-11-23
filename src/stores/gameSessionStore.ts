@@ -8,7 +8,13 @@ import { clientEvents, serverEvents } from '@/types/events'
 import router from '@/router';
 
 export const useGameSessionStore = defineStore('gameSessionStore', () => {
-  const socket: Socket = io("https://jackbox-server.onrender.com"); // Use http://localhost:3000 for testing
+/*
+For testing:
+http://localhost:3000
+For pushing:
+https://jackbox-server.onrender.com
+*/
+  const socket: Socket = io("https://jackbox-server.onrender.com");
   const gameid: Ref<string> = ref('')
   const players: Ref<string[]> = ref([])
   const gameType: Ref<string> = ref('')
@@ -16,7 +22,7 @@ export const useGameSessionStore = defineStore('gameSessionStore', () => {
 
   // =============================================================================================
   // Client Events
-  //  The following functions emit events to the server
+  // The following functions emit events to the server
   // =============================================================================================
   function joinGame(request: (IClient.IJoinGame)) {
     username.value = request.username
@@ -46,7 +52,7 @@ export const useGameSessionStore = defineStore('gameSessionStore', () => {
 
   // =============================================================================================
   // Server Events
-  //  The following functions handle events sent by the server
+  // The following functions handle events sent by the server
   // =============================================================================================
   socket.on(serverEvents.roomUpdate, (response: IServer.IRoomUpdate) => {
     gameid.value = response.gameid
