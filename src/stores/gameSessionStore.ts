@@ -56,6 +56,10 @@ export const useGameSessionStore = defineStore('gameSessionStore', () => {
     timer.value = 0
   }
 
+  function submitWords(selectedNouns: string[], selectedVerbs: string[]) {
+    socket.emit(clientEvents.submitWords, { gameid: gameid.value, username: username.value, selectedNouns, selectedVerbs });
+  }
+
   // =============================================================================================
   // Server Events
   // The following functions handle events sent by the server
@@ -92,5 +96,5 @@ export const useGameSessionStore = defineStore('gameSessionStore', () => {
     timer.value = response.time;
   });
 
-  return { joinGame, createGame, startGame, leaveGame, startWordSelect, gameType, gameid, players, timer, username }
+  return { joinGame, createGame, startGame, leaveGame, startWordSelect, submitWords, gameType, gameid, players, timer, username }
 })

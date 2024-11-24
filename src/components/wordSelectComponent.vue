@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref, computed, watch } from 'vue';
 import { useGameSessionStore } from '@/stores/gameSessionStore';
 import router from '@/router';
 import { NOUN_COUNT, VERB_COUNT, NOUN_LIMIT, VERB_LIMIT, NOUNS, VERBS } from '@/constants/wordConstants';
@@ -51,6 +51,18 @@ function isSelected(word: string, type: 'noun' | 'verb') {
     return selectedVerbs.value.includes(word);
   }
 }
+
+function submitWords() {
+  console.log('submitting words: ', selectedNouns.value, selectedVerbs.value);
+  gameSessionStore.submitWords(selectedNouns.value, selectedVerbs.value);
+}
+
+watch(timer, (time) => {
+  if (time === 0) {
+
+    submitWords();
+  }
+});
 </script>
 
 <template>
