@@ -43,6 +43,10 @@ https://jackbox-server.onrender.com
     reset()
   }
 
+  function startWordSelect() {
+    socket.emit(clientEvents.startWordSelect, { 'gameid': gameid.value } as IClient.IStartWordSelect)
+  }
+
   function reset() {
     gameid.value = ''
     players.value = []
@@ -77,5 +81,9 @@ https://jackbox-server.onrender.com
     username.value = newUsername
   })
 
-  return { joinGame, createGame, startGame, leaveGame, gameType, gameid, players }
+  socket.on(serverEvents.wordSelectStart, () => {
+    router.push({ name: 'word_select' })
+  })
+
+  return { joinGame, createGame, startGame, leaveGame, startWordSelect, gameType, gameid, players }
 })

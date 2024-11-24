@@ -4,7 +4,7 @@ import { useGameSessionStore } from '@/stores/gameSessionStore'
 import type * as IClient from '@/types/IClient';
 
 const gameSessionStore = useGameSessionStore()
-const gameTypes = ['Lashquip', 'Murder Trivia Party', 'Anotha Game', 'Subscribe!']
+const gameTypes = ['Drawing Tournament']
 const name = ref('')
 const nameRules = [
   (value: string) => {

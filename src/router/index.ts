@@ -4,6 +4,7 @@ import CreateView from '../views/CreateGameView.vue'
 import JoinView from '../views/JoinGameView.vue'
 import LobbyView from '@/views/LobbyView.vue'
 import TestGameView from "@/views/games/TestGameView.vue";
+import WordSelectView from '@/views/WordSelectView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -32,6 +33,11 @@ const router = createRouter({
       path: '/test_game',
       name: 'test_game',
       component: TestGameView
+    },
+    {
+      path: '/word_select',
+      name: 'word_select',
+      component: WordSelectView
     },
   ]
 })
