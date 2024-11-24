@@ -8,17 +8,18 @@ import { clientEvents, serverEvents } from '@/types/events'
 import router from '@/router';
 
 export const useGameSessionStore = defineStore('gameSessionStore', () => {
-/*
-For testing:
-http://localhost:3000
-For pushing:
-https://jackbox-server.onrender.com
-*/
+  /*
+  For testing:
+  http://localhost:3000
+  For pushing:
+  https://jackbox-server.onrender.com
+  */
   const socket: Socket = io("https://jackbox-server.onrender.com");
   const gameid: Ref<string> = ref('')
   const players: Ref<string[]> = ref([])
   const gameType: Ref<string> = ref('')
   const username: Ref<string> = ref('')
+  const timer: Ref<number> = ref(-1)
 
   // =============================================================================================
   // Client Events
@@ -52,6 +53,7 @@ https://jackbox-server.onrender.com
     players.value = []
     gameType.value = ''
     username.value = ''
+    timer.value = 0
   }
 
   // =============================================================================================
@@ -85,5 +87,10 @@ https://jackbox-server.onrender.com
     router.push({ name: 'word_select' })
   })
 
-  return { joinGame, createGame, startGame, leaveGame, startWordSelect, gameType, gameid, players }
+  socket.on(serverEvents.timerUpdate, (response: IServer.ITimerUpdate) => {
+    console.log(`Received timer update: ${response.time} seconds left`);
+    timer.value = response.time;
+  });
+
+  return { joinGame, createGame, startGame, leaveGame, startWordSelect, gameType, gameid, players, timer, username }
 })

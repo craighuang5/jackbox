@@ -31,7 +31,8 @@ function leave() {
         </ul>
       </v-card-text>
       <v-card-actions>
-        <v-btn color="primary" @click="start()" :disabled="gameSessionStore.players.length < 2">Start</v-btn>
+        <!-- In the next line, add the comment to the html to enforce a player count before starting  -->
+        <v-btn color="primary" @click="start()">Start</v-btn> <!--  :disabled="gameSessionStore.players.length < 2" -->
         <v-btn @click="leave()">Leave</v-btn>
       </v-card-actions>
     </v-card>
