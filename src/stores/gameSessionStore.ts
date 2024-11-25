@@ -8,8 +8,13 @@ import { clientEvents, serverEvents } from '@/types/events'
 import router from '@/router';
 
 export const useGameSessionStore = defineStore('gameSessionStore', () => {
-  const serverOrigin = import.meta.env.SERVER_ORIGIN || 'http://localhost:3000';
-  const socket: Socket = io(serverOrigin);
+  /*
+   For testing:
+   http://localhost:3000
+   For pushing:
+   https://jackbox-server.onrender.com
+   */
+  const socket: Socket = io("https://jackbox-server.onrender.com");
   const gameid: Ref<string> = ref('')
   const players: Ref<string[]> = ref([])
   const gameType: Ref<string> = ref('')
