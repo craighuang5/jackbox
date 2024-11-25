@@ -1,8 +1,10 @@
-export const NOUN_COUNT = 10;
-export const VERB_COUNT = 10;
-export const NOUN_LIMIT = 5;
-export const VERB_LIMIT = 5;
-export const NOUNS = [
+export const NOUN_COUNT = 10; // Number of nouns the client can choose from
+export const VERB_COUNT = 10; // Number of verbs the client can choose from
+export const NOUN_LIMIT = 5; // Limit on how many nouns the client can select
+export const VERB_LIMIT = 5; // Limit on how many verbs the client can select
+export const RANDOM_NOUN_COUNT = 2; // Number of 
+export const RANDOM_VERB_COUNT = 1;
+export const NOUNS = [ // Pool of nouns
   'book',
   'phone',
   'river',
@@ -34,7 +36,7 @@ export const NOUNS = [
   'candle',
   'cup'
 ];
-export const VERBS = [
+export const VERBS = [ // Pool of verbs
   'sing',
   'dance',
   'cook',

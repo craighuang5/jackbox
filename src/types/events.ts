@@ -1,15 +1,15 @@
 // events emitted by the server that the client listens for
 let serverEvents = {
   "roomUpdate": "roomUpdate",
-  "gameStart": "gameStart",
-  "connected": "connected",
   "usernameTaken": "usernameTaken",
+  "tutorialStart": "tutorialStart",
+  "connected": "connected",
   "error": "error",
   "wordSelectStart": "wordSelectStart",
   "drawStart": "drawStart",
   "captionStart": "captionStart",
   "voteStart": "voteStart",
-  "playersOutStart": "playersOutStart",
+  "scoreStart": "scoreStart",
   "winnerStart": "winnerStart",
   "timerUpdate": "timerUpdate",
 }
@@ -18,10 +18,10 @@ let serverEvents = {
 let clientEvents = {
   "createGame": "createGame",
   "joinGame": "joinGame",
-  "startGame": "startGame",
+  "startTutorial": "startTutorial",
   "leaveGame": "leaveGame",
-  "startWordSelect": "startWordSelect",
-  "submitWords": "submitWords",
+  "startRound": "startRound",
+  "submitWordSelection": "submitWordSelection",
 }
 
 export {

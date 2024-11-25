@@ -4,8 +4,9 @@ import { useGameSessionStore } from '@/stores/gameSessionStore'
 import type * as IClient from '@/types/IClient';
 
 const gameSessionStore = useGameSessionStore()
-const gameTypes = ['Drawing Tournament']
+const gameTypes = ['Classic']
 const name = ref('')
+const rounds = ref(1)
 const nameRules = [
   (value: string) => {
     if (value) return true
@@ -16,7 +17,8 @@ const nameRules = [
 function connect(gameType: string) {
   let request: IClient.ICreateGame = {
     username: name.value,
-    gameType: gameType
+    gameType: gameType,
+    rounds: rounds.value,
   }
   gameSessionStore.createGame(request)
 }
@@ -26,10 +28,11 @@ function connect(gameType: string) {
 <template>
   <v-container class="justify-center fill-height">
     <v-sheet rounded :elevation="10" class="create-sheet">
-      <h1 style="text-align: center;">Choose a Game</h1>
+      <h1 style="text-align: center;">Choose a Mode</h1>
       <v-form>
         <v-text-field class="name-field" v-model="name" :counter="10" :rules="nameRules" label="Name" required
           hide-details></v-text-field>
+        <v-text-field v-model="rounds" type="number" min="1" label="Number of Rounds" required></v-text-field>
         <v-btn v-for="gameType in gameTypes" class="create-btn" block color="primary" @click="connect(gameType)">
           {{ gameType }}
         </v-btn>

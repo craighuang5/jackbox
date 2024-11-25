@@ -4,20 +4,21 @@ import router from '@/router';
 
 const gameSessionStore = useGameSessionStore();
 
-function startWordSelect() {
-  gameSessionStore.startWordSelect();
+function startRound() {
+  gameSessionStore.startRound();
 }
 
 function leave() {
+  console.log(`User ${gameSessionStore.username} left game ${gameSessionStore.gameid}.`)
   gameSessionStore.leaveGame();
-  router.push({ name: 'word_select' });
+  router.push({ name: 'home' });
 }
 </script>
 
 <template>
   <div class="">
-    <h1>{{ gameSessionStore.gameType }} Tutorial</h1>
-    <v-btn color="primary" @click="startWordSelect()">Skip Tutorial</v-btn>
+    <h1>Tutorial</h1>
+    <v-btn color="primary" @click="startRound()">Skip Tutorial</v-btn>
     <v-btn @click="leave()">Leave</v-btn>
   </div>
 </template>

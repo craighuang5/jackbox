@@ -2,10 +2,11 @@
 import { ref, computed, watch } from 'vue';
 import { useGameSessionStore } from '@/stores/gameSessionStore';
 import router from '@/router';
-import { NOUN_COUNT, VERB_COUNT, NOUN_LIMIT, VERB_LIMIT, NOUNS, VERBS } from '@/constants/wordConstants';
+import { NOUN_COUNT, VERB_COUNT, NOUN_LIMIT, VERB_LIMIT, RANDOM_NOUN_COUNT, RANDOM_VERB_COUNT, NOUNS, VERBS } from '@/constants/wordConstants';
 
 const gameSessionStore = useGameSessionStore();
 const timer = computed(() => gameSessionStore.timer);
+const isTimerFinished = computed(() => timer.value === 0);
 
 function leave() {
   gameSessionStore.leaveGame();
@@ -13,8 +14,11 @@ function leave() {
 }
 
 function getRandomWords(words: string[], count: number): string[] {
-  const shuffled = words.sort(() => 0.5 - Math.random());
-  return shuffled.slice(0, count);
+  const indices = new Set<number>();
+  while (indices.size < count) {
+    indices.add(Math.floor(Math.random() * words.length));
+  }
+  return Array.from(indices).map(index => words[index]);
 }
 
 const randomNouns = ref(getRandomWords(NOUNS, NOUN_COUNT));
@@ -52,22 +56,29 @@ function isSelected(word: string, type: 'noun' | 'verb') {
   }
 }
 
-function submitWords() {
-  console.log('submitting words: ', selectedNouns.value, selectedVerbs.value);
-  gameSessionStore.submitWords(selectedNouns.value, selectedVerbs.value);
+function submitWordSelection() {
+  // If no nouns and verbs are selected, pick random ones
+  if (selectedNouns.value.length === 0 && selectedVerbs.value.length === 0) {
+    selectedNouns.value.push(...getRandomWords(randomNouns.value, RANDOM_NOUN_COUNT));
+    selectedVerbs.value.push(...getRandomWords(randomVerbs.value, RANDOM_VERB_COUNT));
+  }
+
+  // Ensure the selections don't exceed the limits
+  selectedNouns.value = selectedNouns.value.slice(0, NOUN_LIMIT);
+  selectedVerbs.value = selectedVerbs.value.slice(0, VERB_LIMIT);
+  gameSessionStore.submitWordSelection(selectedNouns.value, selectedVerbs.value);
 }
 
-watch(timer, (time) => {
-  if (time === 0) {
-
-    submitWords();
+watch(isTimerFinished, (isFinished) => {
+  if (isFinished) {
+    submitWordSelection();
   }
 });
 </script>
 
 <template>
   <h1>Word Selection</h1>
-  <p v-if="timer > -1">Time left: {{ timer }}</p>
+  <p v-if="timer > -1">{{ timer }}</p>
   <div>
     <h2>Nouns</h2>
     <div>

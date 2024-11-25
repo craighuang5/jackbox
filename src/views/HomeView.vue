@@ -4,7 +4,7 @@
 <template>
   <v-container class="justify-center fill-height">
     <div>
-      <h1 style="text-align: center;">Welcome to Jackbox Game</h1>
+      <h1 style="text-align: center;">Welcome to Canvas Clash!</h1>
       <div class="home-container">
         <v-btn color="primary" class="home-btn" to="create">Create Game</v-btn>
         <v-btn color="primary" class="home-btn" to="join">Join Game</v-btn>

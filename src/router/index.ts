@@ -3,7 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import CreateView from '../views/CreateGameView.vue'
 import JoinView from '../views/JoinGameView.vue'
 import LobbyView from '@/views/LobbyView.vue'
-import TestGameView from "@/views/games/TestGameView.vue";
+import TutorialView from '@/views/tutorial/TutorialView.vue'
 import WordSelectView from '@/views/WordSelectView.vue'
 
 const router = createRouter({
@@ -30,9 +30,9 @@ const router = createRouter({
       component: LobbyView
     },
     {
-      path: '/test_game',
-      name: 'test_game',
-      component: TestGameView
+      path: '/tutorial',
+      name: 'tutorial',
+      component: TutorialView
     },
     {
       path: '/word_select',

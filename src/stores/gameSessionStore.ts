@@ -14,11 +14,13 @@ export const useGameSessionStore = defineStore('gameSessionStore', () => {
   For pushing:
   https://jackbox-server.onrender.com
   */
-  const socket: Socket = io("https://jackbox-server.onrender.com");
+  const socket: Socket = io("http://localhost:3000");
   const gameid: Ref<string> = ref('')
   const players: Ref<string[]> = ref([])
   const gameType: Ref<string> = ref('')
   const username: Ref<string> = ref('')
+  const totalRounds: Ref<number> = ref(1)
+  const currentRound: Ref<number> = ref(1)
   const timer: Ref<number> = ref(-1)
 
   // =============================================================================================
@@ -35,17 +37,18 @@ export const useGameSessionStore = defineStore('gameSessionStore', () => {
     socket.emit(clientEvents.createGame, request)
   }
 
-  function startGame() {
-    socket.emit(clientEvents.startGame, { 'gameid': gameid.value } as IClient.IStartGame)
-  }
 
   function leaveGame() {
     socket.emit(clientEvents.leaveGame, { 'gameid': gameid.value, 'username': username.value } as IClient.ILeaveGame)
     reset()
   }
 
-  function startWordSelect() {
-    socket.emit(clientEvents.startWordSelect, { 'gameid': gameid.value } as IClient.IStartWordSelect)
+  function startTutorial() {
+    socket.emit(clientEvents.startTutorial, { 'gameid': gameid.value } as IClient.IStartTutorial);
+  }
+
+  function startRound() {
+    socket.emit(clientEvents.startRound, { 'gameid': gameid.value } as IClient.IStartRound)
   }
 
   function reset() {
@@ -56,8 +59,11 @@ export const useGameSessionStore = defineStore('gameSessionStore', () => {
     timer.value = 0
   }
 
-  function submitWords(selectedNouns: string[], selectedVerbs: string[]) {
-    socket.emit(clientEvents.submitWords, { gameid: gameid.value, username: username.value, selectedNouns, selectedVerbs });
+  function submitWordSelection(selectedNouns: string[], selectedVerbs: string[]) {
+    socket.emit(clientEvents.submitWordSelection, { gameid: gameid.value, username: username.value, selectedNouns, selectedVerbs });
+    console.log(
+      `submitted words for player ${username.value}:\nNouns: ${selectedNouns.length > 0 ? selectedNouns.join(", ") : ""}\nVerbs: ${selectedVerbs.length > 0 ? selectedVerbs.join(", ") : ""}`
+    );
   }
 
   // =============================================================================================
@@ -68,15 +74,32 @@ export const useGameSessionStore = defineStore('gameSessionStore', () => {
     gameid.value = response.gameid
     players.value = response.players
     gameType.value = response.gameType
+    totalRounds.value = response.totalRounds;
+    currentRound.value = response.currentRound;
   })
+
+  // function reconstructPlayers(playersData: IServer.IPlayer[]): Player[] {
+  //   return playersData.map(
+  //     playerData =>
+  //       new Player(
+  //         playerData.username,
+  //         playerData.score,
+  //         playerData.nouns,
+  //         playerData.verbs,
+  //         playerData.prompt,
+  //         playerData.caption,
+  //         playerData.drawing
+  //       )
+  //   );
+  // }
 
   socket.on(serverEvents.error, (message: string) => {
     router.push({ name: 'home' })
     reset()
   })
 
-  socket.on(serverEvents.gameStart, () => {
-    router.push({ name: 'test_game' })
+  socket.on(serverEvents.tutorialStart, () => {
+    router.push({ name: 'tutorial' })
   })
 
   socket.on(serverEvents.connected, () => {
@@ -96,5 +119,5 @@ export const useGameSessionStore = defineStore('gameSessionStore', () => {
     timer.value = response.time;
   });
 
-  return { joinGame, createGame, startGame, leaveGame, startWordSelect, submitWords, gameType, gameid, players, timer, username }
+  return { joinGame, createGame, leaveGame, startTutorial, startRound, submitWordSelection, gameType, gameid, players, timer, username }
 })

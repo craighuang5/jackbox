@@ -1,17 +1,17 @@
 <script setup lang="ts">
 import { useGameSessionStore } from '@/stores/gameSessionStore';
-import { toRef } from 'vue';
+import { computed, toRef } from 'vue';
 import router from '@/router';
 
 const gameSessionStore = useGameSessionStore();
 const gameid = toRef(gameSessionStore, 'gameid');
 
-function start() {
-  gameSessionStore.startGame();
+function startTutorial() {
+  gameSessionStore.startTutorial();
 }
 
 function leave() {
-  console.log('leaving')
+  console.log(`User ${gameSessionStore.username} left game ${gameSessionStore.gameid}.`)
   gameSessionStore.leaveGame();
   router.push({ name: 'home' });
 }
@@ -32,7 +32,8 @@ function leave() {
       </v-card-text>
       <v-card-actions>
         <!-- In the next line, add the comment to the html to enforce a player count before starting  -->
-        <v-btn color="primary" @click="start()">Start</v-btn> <!--  :disabled="gameSessionStore.players.length < 2" -->
+        <!--  :disabled="gameSessionStore.players.length < 2" -->
+        <v-btn color="primary" @click="startTutorial()">Start</v-btn>
         <v-btn @click="leave()">Leave</v-btn>
       </v-card-actions>
     </v-card>
