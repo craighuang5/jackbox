@@ -6,6 +6,7 @@ import LobbyView from '@/views/LobbyView.vue'
 import TutorialView from '@/views/tutorial/TutorialView.vue'
 import WordSelectView from '@/views/WordSelectView.vue'
 import PromptRevealView from '@/views/transition/PromptRevealView.vue'
+import DrawView from '@/views/DrawView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -44,6 +45,11 @@ const router = createRouter({
       path: '/prompt_reveal',
       name: 'prompt_reveal',
       component: PromptRevealView
+    },
+    {
+      path: '/draw',
+      name: 'draw',
+      component: DrawView
     },
   ]
 })
