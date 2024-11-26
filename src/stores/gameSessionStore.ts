@@ -5,16 +5,11 @@ import { io, Socket } from 'socket.io-client'
 import type * as IClient from '@/types/IClient'
 import type * as IServer from '@/types/IServer'
 import { clientEvents, serverEvents } from '@/types/events'
-import router from '@/router';
+import router from '@/router'
+import { serverUrl } from '../constants/originConfig'
 
 export const useGameSessionStore = defineStore('gameSessionStore', () => {
-  /*
-   For testing:
-   http://localhost:3000
-   For pushing:
-   https://jackbox-server.onrender.com
-   */
-  const socket: Socket = io("https://jackbox-server.onrender.com");
+  const socket: Socket = io(serverUrl);
   const gameid: Ref<string> = ref('')
   const players: Ref<string[]> = ref([])
   const gameType: Ref<string> = ref('')
@@ -22,6 +17,7 @@ export const useGameSessionStore = defineStore('gameSessionStore', () => {
   const totalRounds: Ref<number> = ref(1)
   const currentRound: Ref<number> = ref(1)
   const timer: Ref<number> = ref(-1)
+  const prompt: Ref<string> = ref('')
 
   // =============================================================================================
   // Client Events
@@ -114,10 +110,19 @@ export const useGameSessionStore = defineStore('gameSessionStore', () => {
     router.push({ name: 'word_select' })
   })
 
+  socket.on(serverEvents.promptRevealStart, () => {
+    router.push({ name: 'prompt_reveal' })
+  })
+
   socket.on(serverEvents.timerUpdate, (response: IServer.ITimerUpdate) => {
     console.log(`Received timer update: ${response.time} seconds left`);
     timer.value = response.time;
   });
 
-  return { joinGame, createGame, leaveGame, startTutorial, startRound, submitWordSelection, gameType, gameid, players, timer, username }
+  socket.on(serverEvents.sendPrompt, (response: IServer.ISendPrompt) => {
+    prompt.value = response.prompt
+    console.log(`Prompt received: ${prompt.value}`)
+  })
+
+  return { joinGame, createGame, leaveGame, startTutorial, startRound, submitWordSelection, gameType, gameid, players, timer, username, prompt, totalRounds, currentRound }
 })
