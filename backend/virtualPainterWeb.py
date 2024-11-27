@@ -29,7 +29,8 @@ imgCanvas = np.zeros((cameraHeight, cameraWidth, 3),
 # Create a Flask application object — app — in the current Python module
 app = Flask(__name__)
 # enable CORS
-CORS(app, resources={r'/*': {'origins': '*'}})
+CORS(app, resources={
+     r'/*': {'origins': ['http://localhost:5173', 'https://craighuang5.github.io']}})
 
 
 def generate_frames():
