@@ -4,14 +4,14 @@ import { useGameSessionStore } from '@/stores/gameSessionStore';
 
 const gameSessionStore = useGameSessionStore();
 const prompt = computed(() => gameSessionStore.prompt);
-const videoFeedUrl = ref('http://127.0.0.1:5001/video_feed');
+const videoFeedUrl = ref('https://craighuang5.github.io/video_feed');
 
 function handleKeyPress(event: KeyboardEvent) {
   let key = event.key.toLowerCase();
   console.log("Key pressed:", key);
 
   // Send key press to Flask backend
-  fetch('http://127.0.0.1:5001/key_press', {
+  fetch('https://craighuang5.github.io/key_press', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
