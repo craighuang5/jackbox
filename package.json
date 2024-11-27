@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "concurrently \"vite\" \"python backend/virtualPainterWeb.py\"",
     "build": "run-s install-python-deps type-check build-only",
-    "start": "concurrently \"vite preview --port 5173\" \"python backend/virtualPainterWeb.py\"",
+    "start": "concurrently \"vite preview\" \"python backend/virtualPainterWeb.py\"",
     "preview": "vite preview",
     "test:unit": "vitest",
     "build-only": "vite build",
