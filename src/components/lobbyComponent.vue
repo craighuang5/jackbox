@@ -21,7 +21,8 @@ function leave() {
   <v-container class="justify-center fill-height">
     <v-card class="lobby-card" rounded elevation="10">
       <v-card-title>Game code: {{ gameid }}</v-card-title>
-      <v-card-subtitle>{{ gameSessionStore.gameType }}</v-card-subtitle>
+      <!-- <v-card-subtitle>{{ gameSessionStore.gameType }}</v-card-subtitle> -->
+      <v-card-subtitle>Number of Rounds: {{ gameSessionStore.totalRounds }}</v-card-subtitle>
       <v-divider></v-divider>
       <v-card-text>
         <h2>Players</h2>

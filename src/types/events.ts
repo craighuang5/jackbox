@@ -7,9 +7,8 @@ let serverEvents = {
   // Emits that notify game state change
   "tutorialStart": "tutorialStart",
   "wordSelectStart": "wordSelectStart",
-  "drawStart": "drawStart",
-  "captionStart": "captionStart",
-  "voteStart": "voteStart",
+  "createChampion": "createChampion",
+  "createChallenger": "createChallenger",
   "scoreStart": "scoreStart",
   "winnerStart": "winnerStart",
   // Emits that notify transition state change
@@ -28,6 +27,7 @@ let clientEvents = {
   "leaveGame": "leaveGame",
   "startRound": "startRound",
   "submitWordSelection": "submitWordSelection",
+  "submitChampion": "submitChampion",
 }
 
 export {

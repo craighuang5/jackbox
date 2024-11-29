@@ -31,3 +31,10 @@ export interface ISubmitWordSelection {
   selectedNouns: string[];
   selectedVerbs: string[];
 }
+
+export interface ISubmitChampion {
+  gameid: string;
+  username: string;
+  drawing: string;
+  caption: string;
+}

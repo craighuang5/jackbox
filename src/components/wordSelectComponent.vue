@@ -77,7 +77,7 @@ watch(isTimerFinished, (isFinished) => {
 </script>
 
 <template>
-  <h1>Word Selection</h1>
+  <h1>You Choose the Topic, We’ll Set the Stage for the Fight!</h1>
   <p v-if="timer > -1">{{ timer }}</p>
   <div>
     <h2>Nouns</h2>

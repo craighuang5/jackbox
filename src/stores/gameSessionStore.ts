@@ -56,9 +56,16 @@ export const useGameSessionStore = defineStore('gameSessionStore', () => {
   }
 
   function submitWordSelection(selectedNouns: string[], selectedVerbs: string[]) {
-    socket.emit(clientEvents.submitWordSelection, { gameid: gameid.value, username: username.value, selectedNouns, selectedVerbs });
+    socket.emit(clientEvents.submitWordSelection, { gameid: gameid.value, username: username.value, selectedNouns, selectedVerbs } as IClient.ISubmitWordSelection);
     console.log(
       `submitted words for player ${username.value}:\nNouns: ${selectedNouns.length > 0 ? selectedNouns.join(", ") : ""}\nVerbs: ${selectedVerbs.length > 0 ? selectedVerbs.join(", ") : ""}`
+    );
+  }
+
+  function submitChampion(drawing: string, caption: string) {
+    socket.emit(clientEvents.submitChampion, { gameid: gameid.value, username: username.value, drawing, caption } as IClient.ISubmitChampion);
+    console.log(
+      `player ${username.value} submitted champion: ${caption}`
     );
   }
 
@@ -73,21 +80,6 @@ export const useGameSessionStore = defineStore('gameSessionStore', () => {
     totalRounds.value = response.totalRounds;
     currentRound.value = response.currentRound;
   })
-
-  // function reconstructPlayers(playersData: IServer.IPlayer[]): Player[] {
-  //   return playersData.map(
-  //     playerData =>
-  //       new Player(
-  //         playerData.username,
-  //         playerData.score,
-  //         playerData.nouns,
-  //         playerData.verbs,
-  //         playerData.prompt,
-  //         playerData.caption,
-  //         playerData.drawing
-  //       )
-  //   );
-  // }
 
   socket.on(serverEvents.error, (message: string) => {
     router.push({ name: 'home' })
@@ -114,10 +106,6 @@ export const useGameSessionStore = defineStore('gameSessionStore', () => {
     router.push({ name: 'prompt_reveal' })
   })
 
-  socket.on(serverEvents.drawStart, () => {
-    router.push({ name: 'draw' })
-  })
-
   socket.on(serverEvents.timerUpdate, (response: IServer.ITimerUpdate) => {
     console.log(`Received timer update: ${response.time} seconds left`);
     timer.value = response.time;
@@ -128,5 +116,9 @@ export const useGameSessionStore = defineStore('gameSessionStore', () => {
     console.log(`Prompt received: ${prompt.value}`)
   })
 
-  return { joinGame, createGame, leaveGame, startTutorial, startRound, submitWordSelection, gameType, gameid, players, timer, username, prompt, totalRounds, currentRound }
+  socket.on(serverEvents.createChampion, () => {
+    router.push({ name: 'create_champion' })
+  })
+
+  return { joinGame, createGame, leaveGame, startTutorial, startRound, submitWordSelection, submitChampion, gameType, gameid, players, timer, username, prompt, totalRounds, currentRound }
 })
