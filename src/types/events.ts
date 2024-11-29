@@ -15,6 +15,7 @@ let serverEvents = {
   "promptRevealStart": "promptRevealStart",
   // Emits that send player information
   "sendPrompt": "sendPrompt",
+  "sendMatchUp": "sendMatchup",
   // Emit that updates the timer
   "timerUpdate": "timerUpdate",
 }
@@ -28,6 +29,7 @@ let clientEvents = {
   "startRound": "startRound",
   "submitWordSelection": "submitWordSelection",
   "submitChampion": "submitChampion",
+  "submitChallenger": "submitChallenger",
 }
 
 export {

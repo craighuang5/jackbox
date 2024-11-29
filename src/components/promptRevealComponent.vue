@@ -9,9 +9,9 @@ const prompt = computed(() => gameSessionStore.prompt);
 <template>
   <v-container class="justify-center fill-height">
     <v-card class="prompt-card" rounded elevation="10">
-      <v-card-title>Prompt Reveal</v-card-title>
+      <v-card-title>Prepare to train your champion!</v-card-title>
       <v-card-text>
-        <h2>Your Prompt:</h2>
+        <h2>The title fight:</h2>
         <p>{{ prompt }}</p>
       </v-card-text>
     </v-card>

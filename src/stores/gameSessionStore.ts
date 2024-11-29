@@ -9,7 +9,7 @@ import router from '@/router'
 import { serverUrl } from '../constants/originConfig'
 
 export const useGameSessionStore = defineStore('gameSessionStore', () => {
-  const socket: Socket = io(serverUrl);
+  const socket: Socket = io(serverUrl)
   const gameid: Ref<string> = ref('')
   const players: Ref<string[]> = ref([])
   const gameType: Ref<string> = ref('')
@@ -18,6 +18,8 @@ export const useGameSessionStore = defineStore('gameSessionStore', () => {
   const currentRound: Ref<number> = ref(1)
   const timer: Ref<number> = ref(-1)
   const prompt: Ref<string> = ref('')
+  const opponentDrawing: Ref<string> = ref('')
+  const opponentCaption: Ref<string> = ref('')
 
   // =============================================================================================
   // Client Events
@@ -66,6 +68,13 @@ export const useGameSessionStore = defineStore('gameSessionStore', () => {
     socket.emit(clientEvents.submitChampion, { gameid: gameid.value, username: username.value, drawing, caption } as IClient.ISubmitChampion);
     console.log(
       `player ${username.value} submitted champion: ${caption}`
+    );
+  }
+
+  function submitChallenger(drawing: string, caption: string) {
+    socket.emit(clientEvents.submitChallenger, { gameid: gameid.value, username: username.value, drawing, caption } as IClient.ISubmitChallenger);
+    console.log(
+      `player ${username.value} submitted challenger: ${caption}`
     );
   }
 
@@ -120,5 +129,15 @@ export const useGameSessionStore = defineStore('gameSessionStore', () => {
     router.push({ name: 'create_champion' })
   })
 
-  return { joinGame, createGame, leaveGame, startTutorial, startRound, submitWordSelection, submitChampion, gameType, gameid, players, timer, username, prompt, totalRounds, currentRound }
+  socket.on(serverEvents.createChallenger, () => {
+    router.push({ name: 'create_challenger' })
+  })
+
+  socket.on(serverEvents.sendMatchUp, (response: IServer.ISendMatchup) => {
+    opponentDrawing.value = response.championDrawing
+    opponentCaption.value = response.championCaption
+    console.log(`received caption and drawing: ${opponentCaption.value}`)
+  })
+
+  return { joinGame, createGame, leaveGame, startTutorial, startRound, submitWordSelection, submitChampion, submitChallenger, gameType, gameid, players, timer, username, prompt, totalRounds, currentRound, opponentCaption, opponentDrawing }
 })

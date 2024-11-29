@@ -38,3 +38,10 @@ export interface ISubmitChampion {
   drawing: string;
   caption: string;
 }
+
+export interface ISubmitChallenger {
+  gameid: string;
+  username: string;
+  drawing: string;
+  caption: string;
+}

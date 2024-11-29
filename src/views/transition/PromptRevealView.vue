@@ -6,6 +6,3 @@ import promptRevealComponent from '@/components/promptRevealComponent.vue';
 <template>
   <promptRevealComponent></promptRevealComponent>
 </template>
-
-<style scoped lang="sass">
-</style>
