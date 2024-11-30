@@ -6,6 +6,10 @@ const gameSessionStore = useGameSessionStore();
 const sortedScoreboard = computed(() => {
   return [...gameSessionStore.scoreboard].sort((a, b) => b.score - a.score);
 });
+
+function startRound() {
+  gameSessionStore.startRound();
+}
 </script>
 
 <template>
@@ -21,6 +25,7 @@ const sortedScoreboard = computed(() => {
       </v-card-text>
     </v-card>
   </v-container>
+  <v-btn color="primary" @click="startRound()">Next Round</v-btn>
 </template>
 
 <style scoped lang="sass">
