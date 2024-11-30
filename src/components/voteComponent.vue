@@ -11,6 +11,9 @@ const voteOption2Username = computed(() => gameSessionStore.voteOption2Username)
 const voteOption2Drawing = computed(() => gameSessionStore.voteOption2Drawing);
 const voteOption2Caption = computed(() => gameSessionStore.voteOption2Caption);
 
+const timer = computed(() => gameSessionStore.timer);
+const isTimerFinished = computed(() => timer.value === 0);
+
 const selectedOption = ref<string | null>(null);
 
 const vote = (option: string) => {
@@ -21,6 +24,7 @@ const vote = (option: string) => {
 </script>
 
 <template>
+  <p>Time remaining: {{ timer }}</p>
   <v-container class="justify-center fill-height">
     <v-card class="vote-card" rounded elevation="10">
       <v-card-title>{{ votePrompt }}</v-card-title>
