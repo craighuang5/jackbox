@@ -35,7 +35,7 @@ const rotateImages = () => {
   }
 };
 
-let intervalId: number | undefined;
+let intervalId: ReturnType<typeof setInterval> | undefined;
 const audioRef = ref<HTMLAudioElement | null>(null);
 
 onMounted(() => {
