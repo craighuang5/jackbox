@@ -10,6 +10,7 @@ import CreateChampionView from '@/views/CreateChampionView.vue'
 import CreateChallengerView from '@/views/CreateChallengerView.vue'
 import VoteView from '@/views/VoteView.vue'
 import ScoreView from '@/views/ScoreView.vue'
+import WinnerView from '@/views/WinnerView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -68,6 +69,11 @@ const router = createRouter({
       path: '/score',
       name: 'score',
       component: ScoreView
+    },
+    {
+      path: '/winner',
+      name: 'winner',
+      component: WinnerView
     },
   ]
 })

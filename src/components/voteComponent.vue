@@ -23,6 +23,10 @@ const vote = (option: string) => {
   if (selectedOption.value !== null) {
     return; // Prevent changing the answer once selected
   }
+  if (gameSessionStore.username === voteOption1Username.value || gameSessionStore.username === voteOption2Username.value) {
+    console.log("You cannot vote for your own matchup!");
+    return;
+  }
   selectedOption.value = option;
   // Emit the vote to the server
   if (option === 'option1') {

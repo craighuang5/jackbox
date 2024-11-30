@@ -32,8 +32,12 @@ export const useGameSessionStore = defineStore('gameSessionStore', () => {
   // Points for the current champion and challenger
   const championPoints: Ref<number> = ref(0)
   const challengerPoints: Ref<number> = ref(0)
-// Final scoreboard
+  // Final scoreboard
   const scoreboard: Ref<{ username: string; score: number }[]> = ref([])
+  // Winner
+  const winnerUsername: Ref<string> = ref('')
+  const winnerDrawings: Ref<string[]> = ref([])
+  const winnerScore: Ref<number> = ref(0)
 
 
   // =============================================================================================
@@ -187,5 +191,19 @@ export const useGameSessionStore = defineStore('gameSessionStore', () => {
     router.push('score')
   })
 
-  return { joinGame, createGame, leaveGame, startTutorial, startRound, submitWordSelection, submitChampion, submitChallenger, submitVote, gameType, gameid, players, timer, username, prompt, totalRounds, currentRound, opponentCaption, opponentDrawing, votePrompt, voteOption1Caption, voteOption1Drawing, voteOption1Username, voteOption2Caption, voteOption2Drawing, voteOption2Username, championPoints, challengerPoints, scoreboard }
+  socket.on(serverEvents.scoreStart, (response: IServer.IUpdateScoreboard) => {
+    scoreboard.value = response.scores
+    console.log('Scoreboard:', scoreboard.value)
+    router.push('score')
+  })
+
+  socket.on(serverEvents.winnerStart, (response: IServer.IWinnerStart) => {
+    winnerUsername.value = response.username
+    winnerDrawings.value = response.drawings
+    winnerScore.value = response.score
+    console.log('Winner:', winnerUsername)
+    router.push('winner')
+  })
+
+  return { joinGame, createGame, leaveGame, startTutorial, startRound, submitWordSelection, submitChampion, submitChallenger, submitVote, gameType, gameid, players, timer, username, prompt, totalRounds, currentRound, opponentCaption, opponentDrawing, votePrompt, voteOption1Caption, voteOption1Drawing, voteOption1Username, voteOption2Caption, voteOption2Drawing, voteOption2Username, championPoints, challengerPoints, scoreboard, winnerUsername, winnerDrawings, winnerScore }
 })
