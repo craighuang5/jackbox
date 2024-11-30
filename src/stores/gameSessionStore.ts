@@ -18,8 +18,17 @@ export const useGameSessionStore = defineStore('gameSessionStore', () => {
   const currentRound: Ref<number> = ref(1)
   const timer: Ref<number> = ref(-1)
   const prompt: Ref<string> = ref('')
+  // Opponent's champion only the client sees
   const opponentDrawing: Ref<string> = ref('')
   const opponentCaption: Ref<string> = ref('')
+  // Vote options that everyone can see
+  const votePrompt: Ref<string> = ref('')
+  const voteOption1Username: Ref<string> = ref('')
+  const voteOption1Drawing: Ref<string> = ref('')
+  const voteOption1Caption: Ref<string> = ref('')
+  const voteOption2Username: Ref<string> = ref('')
+  const voteOption2Drawing: Ref<string> = ref('')
+  const voteOption2Caption: Ref<string> = ref('')
 
   // =============================================================================================
   // Client Events
@@ -65,7 +74,7 @@ export const useGameSessionStore = defineStore('gameSessionStore', () => {
   }
 
   function submitChampion(drawing: string, caption: string) {
-    socket.emit(clientEvents.submitChampion, { gameid: gameid.value, username: username.value, drawing, caption } as IClient.ISubmitChampion);
+    socket.emit(clientEvents.submitChampion, { gameid: gameid.value, prompt: prompt.value, username: username.value, drawing, caption } as IClient.ISubmitChampion);
     console.log(
       `player ${username.value} submitted champion: ${caption}`
     );
@@ -139,5 +148,17 @@ export const useGameSessionStore = defineStore('gameSessionStore', () => {
     console.log(`received caption and drawing: ${opponentCaption.value}`)
   })
 
-  return { joinGame, createGame, leaveGame, startTutorial, startRound, submitWordSelection, submitChampion, submitChallenger, gameType, gameid, players, timer, username, prompt, totalRounds, currentRound, opponentCaption, opponentDrawing }
+  socket.on(serverEvents.sendVoteOption, (response: IServer.ISendVoteOption) => {
+    console.log('TIME TO VOTE')
+    router.push({ name: 'vote' })
+    votePrompt.value = response.prompt;
+    voteOption1Username.value = response.championPlayerUsername
+    voteOption1Drawing.value = response.championDrawing
+    voteOption1Caption.value = response.championCaption
+    voteOption2Username.value = response.challengerPlayerUsername
+    voteOption2Drawing.value = response.challengerDrawing
+    voteOption2Caption.value = response.challengerCaption
+  })
+
+  return { joinGame, createGame, leaveGame, startTutorial, startRound, submitWordSelection, submitChampion, submitChallenger, gameType, gameid, players, timer, username, prompt, totalRounds, currentRound, opponentCaption, opponentDrawing, votePrompt, voteOption1Caption, voteOption1Drawing, voteOption1Username, voteOption2Caption, voteOption2Drawing, voteOption2Username }
 })

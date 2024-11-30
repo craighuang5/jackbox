@@ -8,6 +8,7 @@ import WordSelectView from '@/views/WordSelectView.vue'
 import PromptRevealView from '@/views/transition/PromptRevealView.vue'
 import CreateChampionView from '@/views/CreateChampionView.vue'
 import CreateChallengerView from '@/views/CreateChallengerView.vue'
+import VoteView from '@/views/VoteView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -56,6 +57,11 @@ const router = createRouter({
       path: '/create_challenger',
       name: 'create_challenger',
       component: CreateChallengerView
+    },
+    {
+      path: '/vote',
+      name: 'vote',
+      component: VoteView
     },
   ]
 })
