@@ -37,3 +37,10 @@ export interface IUpdateVoteCount {
   championPoints: number;
   challengerPoints: number;
 }
+
+export interface IUpdateScoreboard {
+  scores: {
+    username: string;
+    score: number;
+  }[];
+}

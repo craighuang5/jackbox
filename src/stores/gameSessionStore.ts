@@ -32,6 +32,9 @@ export const useGameSessionStore = defineStore('gameSessionStore', () => {
   // Points for the current champion and challenger
   const championPoints: Ref<number> = ref(0)
   const challengerPoints: Ref<number> = ref(0)
+// Final scoreboard
+  const scoreboard: Ref<{ username: string; score: number }[]> = ref([])
+
 
   // =============================================================================================
   // Client Events
@@ -178,5 +181,11 @@ export const useGameSessionStore = defineStore('gameSessionStore', () => {
     challengerPoints.value = response.challengerPoints
   })
 
-  return { joinGame, createGame, leaveGame, startTutorial, startRound, submitWordSelection, submitChampion, submitChallenger, submitVote, gameType, gameid, players, timer, username, prompt, totalRounds, currentRound, opponentCaption, opponentDrawing, votePrompt, voteOption1Caption, voteOption1Drawing, voteOption1Username, voteOption2Caption, voteOption2Drawing, voteOption2Username, championPoints, challengerPoints }
+  socket.on(serverEvents.scoreStart, (response: IServer.IUpdateScoreboard) => {
+    scoreboard.value = response.scores
+    console.log('Scoreboard:', scoreboard.value)
+    router.push('score')
+  })
+
+  return { joinGame, createGame, leaveGame, startTutorial, startRound, submitWordSelection, submitChampion, submitChallenger, submitVote, gameType, gameid, players, timer, username, prompt, totalRounds, currentRound, opponentCaption, opponentDrawing, votePrompt, voteOption1Caption, voteOption1Drawing, voteOption1Username, voteOption2Caption, voteOption2Drawing, voteOption2Username, championPoints, challengerPoints, scoreboard }
 })
