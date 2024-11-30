@@ -29,6 +29,9 @@ export const useGameSessionStore = defineStore('gameSessionStore', () => {
   const voteOption2Username: Ref<string> = ref('')
   const voteOption2Drawing: Ref<string> = ref('')
   const voteOption2Caption: Ref<string> = ref('')
+  // Points for the current champion and challenger
+  const championPoints: Ref<number> = ref(0)
+  const challengerPoints: Ref<number> = ref(0)
 
   // =============================================================================================
   // Client Events
@@ -85,6 +88,16 @@ export const useGameSessionStore = defineStore('gameSessionStore', () => {
     console.log(
       `player ${username.value} submitted challenger: ${caption}`
     );
+  }
+
+  function submitVote(championUsername: string, championPoints: number, challengerUsername: string, challengerPoints: number) {
+    socket.emit(clientEvents.submitVote, { gameid: gameid.value, championUsername, championPoints, challengerUsername, challengerPoints })
+    if (championPoints > challengerPoints) {
+      console.log(`player ${username.value} submitted vote for ${championUsername}`);
+    }
+    else {
+      console.log(`player ${username.value} submitted vote for ${challengerUsername}`);
+    }
   }
 
   // =============================================================================================
@@ -160,5 +173,10 @@ export const useGameSessionStore = defineStore('gameSessionStore', () => {
     voteOption2Caption.value = response.challengerCaption
   })
 
-  return { joinGame, createGame, leaveGame, startTutorial, startRound, submitWordSelection, submitChampion, submitChallenger, gameType, gameid, players, timer, username, prompt, totalRounds, currentRound, opponentCaption, opponentDrawing, votePrompt, voteOption1Caption, voteOption1Drawing, voteOption1Username, voteOption2Caption, voteOption2Drawing, voteOption2Username }
+  socket.on(serverEvents.updateVoteCount, (response: IServer.IUpdateVoteCount) => {
+    championPoints.value = response.championPoints
+    challengerPoints.value = response.challengerPoints
+  })
+
+  return { joinGame, createGame, leaveGame, startTutorial, startRound, submitWordSelection, submitChampion, submitChallenger, submitVote, gameType, gameid, players, timer, username, prompt, totalRounds, currentRound, opponentCaption, opponentDrawing, votePrompt, voteOption1Caption, voteOption1Drawing, voteOption1Username, voteOption2Caption, voteOption2Drawing, voteOption2Username, championPoints, challengerPoints }
 })

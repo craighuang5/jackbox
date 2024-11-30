@@ -17,6 +17,7 @@ let serverEvents = {
   "sendPrompt": "sendPrompt",
   "sendMatchUp": "sendMatchup",
   "sendVoteOption": "sendVoteOption",
+  "updateVoteCount": "updateVoteCount",
   // Emit that updates the timer
   "timerUpdate": "timerUpdate",
 }
@@ -31,6 +32,7 @@ let clientEvents = {
   "submitWordSelection": "submitWordSelection",
   "submitChampion": "submitChampion",
   "submitChallenger": "submitChallenger",
+  "submitVote": "submitVote",
 }
 
 export {

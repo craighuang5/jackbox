@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref, computed, watch } from 'vue';
 import { useGameSessionStore } from '@/stores/gameSessionStore';
 
 const gameSessionStore = useGameSessionStore();
@@ -11,16 +11,32 @@ const voteOption2Username = computed(() => gameSessionStore.voteOption2Username)
 const voteOption2Drawing = computed(() => gameSessionStore.voteOption2Drawing);
 const voteOption2Caption = computed(() => gameSessionStore.voteOption2Caption);
 
+const championPoints = computed(() => gameSessionStore.championPoints);
+const challengerPoints = computed(() => gameSessionStore.challengerPoints);
+
 const timer = computed(() => gameSessionStore.timer);
 const isTimerFinished = computed(() => timer.value === 0);
 
 const selectedOption = ref<string | null>(null);
 
 const vote = (option: string) => {
+  if (selectedOption.value !== null) {
+    return; // Prevent changing the answer once selected
+  }
   selectedOption.value = option;
   // Emit the vote to the server
-  // gameSessionStore.submitVote(option);
+  if (option === 'option1') {
+    gameSessionStore.submitVote(voteOption1Username.value, 1, voteOption2Username.value, 0);
+  } else {
+    gameSessionStore.submitVote(voteOption1Username.value, 0, voteOption2Username.value, 1);
+  }
 };
+
+watch(isTimerFinished, (isFinished) => {
+  if (isFinished) {
+    selectedOption.value = null;
+  }
+});
 </script>
 
 <template>
@@ -31,13 +47,15 @@ const vote = (option: string) => {
       <v-card-text>
         <div class="vote-option" @click="vote('option1')" :class="{ selected: selectedOption === 'option1' }">
           <h3>{{ voteOption1Caption }}</h3>
+          <p>Champion points: {{ championPoints }}</p>
           <img :src="voteOption1Drawing" alt="Option 1 Drawing" />
-          <p>By: {{ voteOption1Username }}</p>
+          <p>By: {{ voteOption1Username }} (Champion)</p>
         </div>
         <div class="vote-option" @click="vote('option2')" :class="{ selected: selectedOption === 'option2' }">
           <h3>{{ voteOption2Caption }}</h3>
+          <p>Challenger points: {{ challengerPoints }}</p>
           <img :src="voteOption2Drawing" alt="Option 2 Drawing" />
-          <p>By: {{ voteOption2Username }}</p>
+          <p>By: {{ voteOption2Username }} (Challenger)</p>
         </div>
       </v-card-text>
     </v-card>
