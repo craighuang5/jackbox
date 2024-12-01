@@ -77,30 +77,103 @@ watch(isTimerFinished, (isFinished) => {
 </script>
 
 <template>
-  <h1>You Choose the Topic, We’ll Set the Stage for the Fight!</h1>
-  <p v-if="timer > -1">{{ timer }}</p>
-  <div>
-    <h2>Nouns</h2>
-    <div>
-      <v-btn v-for="noun in randomNouns" :key="noun" :class="{ selected: isSelected(noun, 'noun') }"
-        @click="toggleSelection(noun, 'noun')">
-        {{ noun }}
-      </v-btn>
-    </div>
-    <h2>Verbs</h2>
-    <div>
-      <v-btn v-for="verb in randomVerbs" :key="verb" :class="{ selected: isSelected(verb, 'verb') }"
-        @click="toggleSelection(verb, 'verb')">
-        {{ verb }}
-      </v-btn>
-    </div>
-  </div>
-  <!-- <v-btn @click="leave()">Leave</v-btn> -->
+  <v-container class="game-container justify-center fill-height"
+    style="background: linear-gradient(37deg, #010103, #00557C);">
+    <v-sheet rounded :elevation="10" class="game-sheet">
+      <div class="timer-container">
+        <p class="timer">{{ timer }}</p>
+      </div>
+
+      <h1 class="game-title">Choose the Topic</h1>
+      <h1 class="sub-title">So we can set the stage for the fight!</h1>
+
+      <div class="words-container">
+        <div class="word-buttons">
+          <v-btn v-for="noun in randomNouns" :key="noun" :class="{ selected: isSelected(noun, 'noun') }"
+            @click="toggleSelection(noun, 'noun')" class="word-btn">
+            {{ noun }}
+          </v-btn>
+        </div>
+      </div>
+    </v-sheet>
+  </v-container>
 </template>
 
 <style scoped lang="scss">
+.game-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: linear-gradient(37deg, #010103, #00557C);
+}
+
+.game-sheet {
+  padding: 40px;
+  background-color: #303030;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  width: 90%;
+}
+
+.timer-container {
+  margin-bottom: 30px;
+}
+
+.timer {
+  font-size: 4rem;
+  font-weight: bold;
+  color: #ffffff;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.game-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #ffffff;
+  margin-bottom: 10px;
+}
+
+.sub-title {
+  font-size: 1.5rem;
+  color: #ffffff;
+  margin-bottom: 30px;
+}
+
+.words-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.word-btn {
+  background-color: #444444;
+  color: white;
+  border-radius: 12px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.word-btn:hover {
+  background-color: #42b983;
+  transform: scale(1.1);
+}
+
 .selected {
   background-color: #42b983;
   color: white;
+  border: none;
+}
+
+.word-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
 }
 </style>

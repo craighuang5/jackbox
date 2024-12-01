@@ -89,7 +89,7 @@ function connect() {
   justify-content: center;
   align-items: center;
   transition: background-color 0.3s ease;
-  background-color: #3e8e41;
+  background-color: #5bb15e;
   color: white;
 }
 

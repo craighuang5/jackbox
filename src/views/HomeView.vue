@@ -52,7 +52,7 @@ const toggleAudio = () => {
 };
 
 onMounted(() => {
-  intervalId = setInterval(rotateImages, 2000);
+  intervalId = setInterval(rotateImages, 1700);
 });
 
 onBeforeUnmount(() => {
