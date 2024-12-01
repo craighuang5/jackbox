@@ -18,7 +18,7 @@ function leave() {
 </script>
 
 <template>
-  <v-container class="justify-center fill-height" style="background: linear-gradient(45deg, #f8c6d4, #a0eaff);">
+  <v-container class="justify-center fill-height" style="background: linear-gradient(37deg, #010103, #00557C);">
     <v-card class="lobby-card" rounded elevation="10">
       <v-card-title class="game-title">Game Code: {{ gameid }}</v-card-title>
       <v-card-subtitle class="rounds-info">{{ gameSessionStore.totalRounds }} round(s)</v-card-subtitle>

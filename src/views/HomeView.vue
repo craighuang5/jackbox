@@ -66,7 +66,7 @@ onBeforeUnmount(() => {
   <v-container class="justify-center fill-height">
     <img :src="leftImage" class="home-drawing left-image" alt="Left Image" />
     <div>
-      <h1 style="text-align: center;">CANVAS CLASH</h1>
+      <h1 style="text-align: center;" class="title">CANVAS CLASH</h1>
       <div class="home-container">
         <v-btn color="primary" class="home-btn" to="create">Create Game</v-btn>
         <v-btn color="primary" class="home-btn" to="join">Join Game</v-btn>
@@ -109,5 +109,12 @@ onBeforeUnmount(() => {
 
 .right-image {
   margin-left: 20px;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #ffffff;
+  margin-bottom: 20px;
 }
 </style>
