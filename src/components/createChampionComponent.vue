@@ -62,7 +62,6 @@ watch(isTimerFinished, (isFinished) => {
   if (isFinished) {
     const drawingToSubmit = uploadedImage.value || whiteRectangle;
     gameSessionStore.submitChampion(drawingToSubmit, nameInput.value);
-    resetFileInput();
   }
 });
 </script>

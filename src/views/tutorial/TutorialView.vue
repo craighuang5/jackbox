@@ -12,9 +12,9 @@ const gameSessionStore = useGameSessionStore();
 // Tutorial data (assuming you will pass images and descriptions dynamically)
 const tutorialSteps = [
   { title: '1. Pick a Topic', description: `Choose a topic that interests you! The AI will create a unique title fight based on it (e.g., if you choose "being cool", then you might compete to become the Champion of Effortless Style).`, image: tutorial1 },
-  { title: '2. Build Your Champion', description: `Design your champion using any drawing app or our hand-tracking drawing tool, then upload and name them.`, image: tutorial2 },
+  { title: '2. Build Your Champion', description: `Design your champion that best fits the title fight using any drawing app or our hand-tracking drawing tool, then upload and name them.`, image: tutorial2 },
   { title: '3. Build a Challenger', description: `Receive someone else's champion and create a challenger to defeat them. You won't know the title fight until later!`, image: tutorial3 },
-  { title: '4. The Showdown', description: `The title fight is revealed! The champion and challenger face off, and players vote for the winner that fits the title fight the best. The more votes you get, the more points you earn!`, image: tutorial4 },
+  { title: '4. The Showdown', description: `The title fight is revealed! The champion and challenger face off, and players vote for their favorite contestant that fits the title fight. The more votes you get, the more points you earn!`, image: tutorial4 },
   { title: '5. Have Fun!', description: `Quick, unexpected drawings often create the most interesting and hilarious characters. Embrace the silliness, think outside the box, and let your imagination run wild!`, image: tutorial5 },
 
   // Add more tutorial steps as needed

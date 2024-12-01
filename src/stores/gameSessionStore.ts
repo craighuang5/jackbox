@@ -144,6 +144,10 @@ export const useGameSessionStore = defineStore('gameSessionStore', () => {
     router.push({ name: 'prompt_reveal' })
   })
 
+  socket.on(serverEvents.championRevealStart, () => {
+    router.push({ name: 'champion_reveal' })
+  })
+
   socket.on(serverEvents.timerUpdate, (response: IServer.ITimerUpdate) => {
     console.log(`Received timer update: ${response.time} seconds left`);
     timer.value = response.time;
