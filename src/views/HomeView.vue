@@ -37,12 +37,22 @@ const rotateImages = () => {
 
 let intervalId: ReturnType<typeof setInterval> | undefined;
 const audioRef = ref<HTMLAudioElement | null>(null);
+const isPlaying = ref(false);
+
+const toggleAudio = () => {
+  if (audioRef.value) {
+    if (isPlaying.value) {
+      audioRef.value.pause();
+    } else {
+      audioRef.value.volume = 0.4;
+      audioRef.value.play();
+    }
+    isPlaying.value = !isPlaying.value;
+  }
+};
 
 onMounted(() => {
-  intervalId = setInterval(rotateImages, 5000);
-  if (audioRef.value) {
-    audioRef.value.volume = 0.4;
-  }
+  intervalId = setInterval(rotateImages, 2000);
 });
 
 onBeforeUnmount(() => {
@@ -60,10 +70,11 @@ onBeforeUnmount(() => {
       <div class="home-container">
         <v-btn color="primary" class="home-btn" to="create">Create Game</v-btn>
         <v-btn color="primary" class="home-btn" to="join">Join Game</v-btn>
+        <v-btn @click="toggleAudio">{{ isPlaying ? '🔇 Mute Music' : '🔊 Play Music' }}</v-btn>
       </div>
     </div>
     <img :src="rightImage" class="home-drawing right-image" alt="Right Image" />
-    <audio ref="audioRef" :src="iceFlow" autoplay loop></audio>
+    <audio ref="audioRef" :src="iceFlow" loop></audio>
   </v-container>
 </template>
 

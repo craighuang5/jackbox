@@ -22,18 +22,17 @@ function connect(gameType: string) {
   }
   gameSessionStore.createGame(request)
 }
-
 </script>
 
 <template>
-  <v-container class="justify-center fill-height">
+  <v-container class="justify-center fill-height" style="background: linear-gradient(45deg, #f8c6d4, #a0eaff);">
     <v-sheet rounded :elevation="10" class="create-sheet">
-      <h1 style="text-align: center;">Game Settings</h1>
+      <h1 class="game-title">Game Settings</h1>
       <v-form>
         <v-text-field class="name-field" v-model="name" :counter="10" :rules="nameRules" label="Name" required
           hide-details></v-text-field>
         <v-text-field v-model="rounds" type="number" min="1" label="Number of Rounds" required></v-text-field>
-        <v-btn v-for="gameType in gameTypes" class="create-btn" block color="primary" @click="connect(gameType)">
+        <v-btn v-for="gameType in gameTypes" block color="primary" class="create-btn" @click="connect(gameType)">
           Create Lobby
         </v-btn>
       </v-form>
@@ -41,17 +40,43 @@ function connect(gameType: string) {
   </v-container>
 </template>
 
-<style lang="sass">
-.create-sheet 
-  padding: 20px 
-  margin: 20px
+<style scoped lang="scss">
+.create-sheet {
+  padding: 20px;
+  margin: 20px;
+  background-color: #303030;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
 
-.create-btn
-  height: 150px !important
-  width: 150px
-  margin-bottom: 15px
+.game-title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #ffffff;
+  text-align: center;
+}
 
-.name-field
-  margin-bottom: 25px
+.name-field,
+.v-text-field {
+  margin-bottom: 25px;
+  color: #ffffff;
+  background-color: #444444;
+  border-radius: 10px;
+}
 
-</style>@/types/interfaces@/types/IServer
+.create-btn {
+  width: 45%;
+  padding: 12px 0;
+  font-size: 1.2rem;
+  font-weight: bold;
+  border-radius: 25px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.3s ease;
+}
+
+.create-btn:hover {
+  background-color: #a0eaff;
+}
+</style>
