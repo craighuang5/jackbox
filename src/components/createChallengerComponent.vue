@@ -51,49 +51,182 @@ const handleFileUpload = (event: Event) => {
   }
 };
 
-const resetFileInput = () => {
-  uploadedImage.value = null;
-  const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement;
-  if (fileInput) {
-    fileInput.value = '';
-  }
-};
-
 watch(isTimerFinished, (isFinished) => {
   if (isFinished) {
     const drawingToSubmit = uploadedImage.value || whiteRectangle;
     gameSessionStore.submitChallenger(drawingToSubmit, nameInput.value);
-    resetFileInput();
   }
 });
 </script>
 
 <template>
-  <p>Time remaining: {{ timer }}</p>
-
-  <!-- Text input for user's name -->
-  <div>
-    <label for="name">Give your challenger a name:</label>
-    <input type="text" v-model="nameInput" placeholder="Make it phunny" />
-  </div>
-
-  <!-- File input for uploading image -->
-  <input type="file" @change="handleFileUpload" />
-  <div v-if="uploadedImage">
-    <h3>Uploaded Image:</h3>
-    <img :src="uploadedImage" alt="Uploaded Image" />
-  </div>
-  <div v-if="opponentDrawing">
-    <h3>Opponent's Drawing:</h3>
-    <img :src="opponentDrawing" alt="Opponent's Drawing" />
-  </div>
-
-  <div v-if="opponentCaption">
-    <h3>Opponent's Caption:</h3>
-    <p>{{ opponentCaption }}</p>
-  </div>
+  <v-container class="justify-center fill-height">
+    <div class="timer-container">
+      <p class="timer">{{ timer }}</p>
+    </div>
+    <v-card class="prompt-card" rounded elevation="10">
+      <v-card-text class="card-text">
+        <h2 class="fight-title">You are facing off against:</h2>
+        <div v-if="opponentDrawing" class="opponent-image-container">
+          <img :src="opponentDrawing" alt="Opponent's Drawing" class="opponent-image" />
+        </div>
+        <p class="prompt">{{ opponentCaption }}</p>
+      </v-card-text>
+    </v-card>
+    <v-card class="upload-card" rounded elevation="10">
+      <v-card-title class="card-title">Create a challenger that can defeat your opponent!</v-card-title>
+      <v-card-text class="card-text">
+        <div class="upload-container">
+          <label for="file-upload" class="custom-file-upload">Upload Image</label>
+          <input type="file" id="file-upload" class="file-input" @change="handleFileUpload" />
+          <div v-if="uploadedImage" class="uploaded-image-container">
+            <img :src="uploadedImage" alt="Uploaded Image" class="uploaded-image" />
+          </div>
+        </div>
+        <div class="name-input-container">
+          <input type="text" v-model="nameInput" class="name-input" placeholder="Enter challenger name here" />
+        </div>
+      </v-card-text>
+    </v-card>
+  </v-container>
 </template>
 
-<style scoped lang="sass">
-/* You can add custom styles here */
+<style scoped lang="scss">
+.v-container {
+  background-image: url('@/assets/ring.png');
+  background-size: cover;
+  background-position: center;
+}
+
+.timer-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.timer {
+  font-size: 4rem;
+  font-weight: bold;
+  color: #ffffff;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  position: absolute;
+  top: 1%;
+  left: 5%;
+}
+
+.prompt-card,
+.upload-card {
+  padding: 30px;
+  margin: 30px;
+  background-color: #303030;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.card-title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #ffffff;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.card-text {
+  font-size: 1.2rem;
+  color: #ffffff;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.fight-title {
+  font-size: 1.8rem;
+  color: #42b983;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.prompt {
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: #ffffff;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.4);
+  margin-top: 0;
+  line-height: 1.5;
+  padding: 10px 20px;
+  background-color: #444444;
+  border-radius: 10px;
+  word-wrap: break-word;
+}
+
+.upload-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.custom-file-upload {
+  background-color: #42b983;
+  color: white;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  text-align: center;
+  display: inline-block;
+  margin-bottom: 20px;
+}
+
+.custom-file-upload:hover {
+  background-color: #2a9d61;
+}
+
+.file-input {
+  display: none;
+}
+
+.uploaded-image-container {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.uploaded-image {
+  width: 500px;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.opponent-image-container {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.opponent-image {
+  width: 500px;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.name-input-container {
+  width: 100%;
+  margin-top: 20px;
+  text-align: center;
+}
+
+.name-input {
+  width: 80%;
+  padding: 10px;
+  font-size: 1.1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.name-input:focus {
+  border-color: #42b983;
+}
 </style>
