@@ -32,7 +32,7 @@ function leave() {
 </script>
 
 <template>
-  <v-container class="tutorial-container">
+  <v-container class="tutorial-container" style="background: linear-gradient(37deg, #010103, #00557C);">
     <div class="header-container">
       <h1 class="tutorial-title">HOW TO PLAY</h1>
       <v-btn class="continue-btn" color="primary" @click="startRound()">Continue</v-btn>

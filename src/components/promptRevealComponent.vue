@@ -11,12 +11,12 @@ const isTimerFinished = computed(() => timer.value === 0);
 </script>
 
 <template>
-  <v-container class="justify-center fill-height" style="background: linear-gradient(37deg, #010103, #00557C);">
+  <v-container class="justify-center fill-height">
+    <div class="timer-container">
+      <p class="timer">{{ timer }}</p>
+    </div>
     <v-card class="prompt-card" rounded elevation="10">
       <v-card-title class="card-title">Prepare to Create Your Champion!</v-card-title>
-      <div class="timer-container">
-        <p class="timer">{{ timer }}</p>
-      </div>
       <v-card-text class="card-text">
         <h2 class="fight-title">The Title Fight:</h2>
         <p class="prompt">{{ prompt }}</p>
@@ -31,6 +31,12 @@ const isTimerFinished = computed(() => timer.value === 0);
   margin: 30px;
   background-color: #303030;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.v-container {
+  background-image: url('@/assets/ring.png');
+  background-size: cover;
+  background-position: center;
 }
 
 .card-title {
@@ -80,5 +86,8 @@ const isTimerFinished = computed(() => timer.value === 0);
   font-weight: bold;
   color: #ffffff;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  position: absolute;
+  top: 1%;
+  left: 5%;
 }
 </style>

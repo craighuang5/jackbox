@@ -68,24 +68,144 @@ watch(isTimerFinished, (isFinished) => {
 </script>
 
 <template>
-  <h2>Draw this:</h2>
-  <p>{{ prompt }}</p>
-  <p>Time remaining: {{ timer }}</p>
+  <v-container class="justify-center fill-height">
+    <p class="timer">{{ timer }}</p>
 
-  <!-- Text input for user's name -->
-  <div>
-    <label for="name">Give your champion a name:</label>
-    <input type="text" v-model="nameInput" placeholder="Make it phunny" />
-  </div>
+    <div class="game-container">
+      <h2 class="title">Create your champion for the following title:</h2>
+      <p class="prompt">{{ prompt }}</p>
 
-  <!-- File input for uploading image -->
-  <input type="file" @change="handleFileUpload" />
-  <div v-if="uploadedImage">
-    <h3>Uploaded Image:</h3>
-    <img :src="uploadedImage" alt="Uploaded Image" />
-  </div>
+      <!-- File input for uploading image -->
+      <div class="upload-container">
+        <label for="file-upload" class="custom-file-upload">Upload Image</label>
+        <input type="file" id="file-upload" class="file-input" @change="handleFileUpload" />
+        <div v-if="uploadedImage" class="uploaded-image-container">
+          <img :src="uploadedImage" alt="Uploaded Image" class="uploaded-image" />
+        </div>
+      </div>
+
+      <!-- Text input for user's name -->
+      <div class="name-input-container">
+        <input type="text" v-model="nameInput" class="name-input" placeholder="Enter champion name here" />
+      </div>
+    </div>
+  </v-container>
+
 </template>
 
-<style scoped lang="sass">
-/* You can add custom styles here */
+<style scoped lang="scss">
+.game-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #303030;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #ffffff;
+  margin-bottom: 10px;
+}
+
+.prompt {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #ffffff;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.4);
+  margin-bottom: 20px;
+  padding: 10px 20px;
+  background-color: #444444;
+  border-radius: 10px;
+  word-wrap: break-word;
+}
+
+.timer-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.timer {
+  font-size: 4rem;
+  font-weight: bold;
+  color: #ffffff;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  position: absolute;
+  top: 1%;
+  left: 5%;
+}
+
+.upload-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.custom-file-upload {
+  background-color: #42b983;
+  color: white;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  text-align: center;
+  display: inline-block;
+  margin-bottom: 20px;
+}
+
+.custom-file-upload:hover {
+  background-color: #2a9d61;
+}
+
+.file-input {
+  display: none;
+}
+
+
+.uploaded-image-container {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.uploaded-image {
+  max-width: 100%;
+  max-height: 400px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.name-input-container {
+  width: 100%;
+  margin-top: 20px;
+  text-align: center;
+}
+
+.name-input {
+  width: 80%;
+  padding: 10px;
+  font-size: 1.1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.name-input:focus {
+  border-color: #42b983;
+}
+
+.v-container {
+  background-image: url('@/assets/ring.png');
+  background-size: cover;
+  background-position: center;
+}
 </style>
