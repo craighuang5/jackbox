@@ -1,14 +1,19 @@
 <script setup lang="ts">
-import { computed, watch } from 'vue';
+import { computed, watch, ref } from 'vue';
 import { useGameSessionStore } from '@/stores/gameSessionStore';
-
+import thunder from '../assets/pixabay_loud_thunder_192165.mp3';
 
 const gameSessionStore = useGameSessionStore();
 const opponentDrawing = computed(() => gameSessionStore.opponentDrawing);
 const opponentCaption = computed(() => gameSessionStore.opponentCaption);
 const timer = computed(() => gameSessionStore.timer);
 const isTimerFinished = computed(() => timer.value === 0);
-
+const thunderAudio = ref(new Audio(thunder));
+watch(opponentDrawing, (newDrawing, oldDrawing) => {
+  if (newDrawing && !oldDrawing) {
+    thunderAudio.value.play();
+  }
+});
 </script>
 
 <template>
@@ -83,6 +88,18 @@ const isTimerFinished = computed(() => timer.value === 0);
   justify-content: center;
   align-items: center;
   margin-bottom: 30px;
+}
+
+.opponent-image-container {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.opponent-image {
+  width: 500px;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .timer {

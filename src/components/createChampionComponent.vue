@@ -176,8 +176,8 @@ watch(isTimerFinished, (isFinished) => {
 }
 
 .uploaded-image {
-  max-width: 100%;
-  max-height: 400px;
+  width: 500px;
+  height: auto;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }

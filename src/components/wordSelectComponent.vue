@@ -84,8 +84,8 @@ watch(isTimerFinished, (isFinished) => {
         <p class="timer">{{ timer }}</p>
       </div>
 
-      <h1 class="game-title">Choose the Topic</h1>
-      <h1 class="sub-title">So we can set the stage for the fight!</h1>
+      <h1 class="game-title">Choose the topic</h1>
+      <h1 class="sub-title">and we'll set the stage for the fight!</h1>
 
       <div class="words-container">
         <div class="word-buttons">
