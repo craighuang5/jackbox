@@ -36,6 +36,10 @@ const vote = (option: string) => {
   }
 };
 
+const totalVotes = computed(() => gameSessionStore.players.length - 2); // Exclude the two players in the matchup
+const option1Health = computed(() => 100 - (championPoints.value / totalVotes.value) * 100);
+const option2Health = computed(() => 100 - (challengerPoints.value / totalVotes.value) * 100);
+
 watch(isTimerFinished, (isFinished) => {
   if (isFinished) {
     selectedOption.value = null;
@@ -44,40 +48,120 @@ watch(isTimerFinished, (isFinished) => {
 </script>
 
 <template>
-  <p>Time remaining: {{ timer }}</p>
-  <v-container class="justify-center fill-height">
-    <v-card class="vote-card" rounded elevation="10">
-      <v-card-title>{{ votePrompt }}</v-card-title>
-      <v-card-text>
-        <div class="vote-option" @click="vote('option1')" :class="{ selected: selectedOption === 'option1' }">
-          <h3>{{ voteOption1Caption }}</h3>
-          <p>Champion points: {{ championPoints }}</p>
-          <img :src="voteOption1Drawing" alt="Option 1 Drawing" />
-          <p>By: {{ voteOption1Username }} (Champion)</p>
-        </div>
-        <div class="vote-option" @click="vote('option2')" :class="{ selected: selectedOption === 'option2' }">
-          <h3>{{ voteOption2Caption }}</h3>
-          <p>Challenger points: {{ challengerPoints }}</p>
-          <img :src="voteOption2Drawing" alt="Option 2 Drawing" />
-          <p>By: {{ voteOption2Username }} (Challenger)</p>
-        </div>
-      </v-card-text>
-    </v-card>
+  <v-container class="vote-container justify-center fill-height">
+    <div class="timer-container">
+      <div class="health-bar-container">
+        <div class="health-bar" :style="{ width: option1Health + '%' }"></div>
+      </div>
+      <p class="timer">{{ timer }}</p>
+      <div class="health-bar-container">
+        <div class="health-bar" :style="{ width: option2Health + '%' }"></div>
+      </div>
+    </div>
+    <h1 class="vote-prompt">{{ votePrompt }}</h1>
+    <div class="option-container">
+      <div class="vote-option" @click="vote('option1')" :class="{ selected: selectedOption === 'option1' }">
+        <h3 class="option-caption">{{ voteOption1Caption }}</h3>
+        <img :src="voteOption1Drawing" alt="Option 1 Drawing" class="option-image" />
+        <p>By: {{ voteOption1Username }} (Champion)</p>
+      </div>
+      <div class="vote-option" @click="vote('option2')" :class="{ selected: selectedOption === 'option2' }">
+        <h3 class="option-caption">{{ voteOption2Caption }}</h3>
+        <img :src="voteOption2Drawing" alt="Option 2 Drawing" class="option-image" />
+        <p>By: {{ voteOption2Username }} (Challenger)</p>
+      </div>
+    </div>
   </v-container>
 </template>
+<style scoped lang="scss">
+.vote-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: linear-gradient(37deg, #010103, #00557C);
+}
 
-<style scoped lang="sass">
-.vote-card
-  padding: 20px
-  margin: 20px
+.v-container {
+  background-image: url('@/assets/ring.png');
+  background-size: cover;
+  background-position: center;
+}
 
-.vote-option
-  cursor: pointer
-  border: 2px solid transparent
-  padding: 10px
-  margin: 10px
-  text-align: center
+.timer-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 10px;
+  position: absolute;
+  top: 0;
+}
 
-.vote-option.selected
-  border-color: #42b983
+.timer {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #ffffff;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.health-bar-container {
+  width: 35%;
+  height: 20px;
+  background-color: #444444;
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 0 5%;
+}
+
+.health-bar {
+  height: 100%;
+  background-color: #42b983;
+  transition: width 0.3s ease;
+}
+
+.vote-prompt {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #ffffff;
+  text-align: center;
+  margin: 20px 0;
+}
+
+.option-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 20px;
+}
+
+.vote-option {
+  cursor: pointer;
+  border: 2px solid transparent;
+  padding: 10px;
+  margin: 10px;
+  text-align: center;
+  transition: transform 0.3s ease;
+  width: 45%;
+}
+
+.vote-option.selected {
+  border-color: #42b983;
+}
+
+.option-caption {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #ffffff;
+  margin-bottom: 10px;
+}
+
+.option-image {
+  width: 100%;
+  max-width: 300px;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
 </style>
