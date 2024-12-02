@@ -9,7 +9,7 @@ const uploadedImage = ref<string | null>(null);
 const opponentDrawing = computed(() => gameSessionStore.opponentDrawing);
 const opponentCaption = computed(() => gameSessionStore.opponentCaption);
 const videoFeedUrl = ref('http://127.0.0.1:5000/video_feed');
-const apiUrl = ref('http://127.0.0.1:5000/key_press')
+const apiUrl = 'http://localhost:5000/key_press'
 const nameInput = ref('');
 
 // Base64 encoded white rectangle image
@@ -52,20 +52,33 @@ const handleFileUpload = (event: Event) => {
   }
 };
 document.addEventListener('keydown', function(event) {
-        let key = event.key.toLowerCase();
-        console.log("Key pressed: " + key);
+    let key = event.key.toLowerCase();
+    console.log("Key pressed: " + key);
 
-        fetch('/key_press', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({key: key})
-        }).then(response => response.json())
-          .then(data => {
-              console.log("Response from server:", data);
-          });
+    // Attempt to send the key press to the server
+    fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ key: key })
+    })
+    .then(response => {
+        // Check if the response is ok (status 200-299)
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log("Response from server:", data);
+    })
+    .catch(error => {
+        // Catch any errors that happen during the fetch or in any of the previous steps
+        console.error("There was a problem with the fetch operation:", error);
     });
+});
+
 watch(isTimerFinished, (isFinished) => {
   if (isFinished) {
     const drawingToSubmit = uploadedImage.value || whiteRectangle;
