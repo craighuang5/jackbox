@@ -1,7 +1,7 @@
 {
   "name": "party_client",
   "version": "0.0.0",
-  "private": false,
+  "private": false, 
   "type": "module",
   "scripts": {
     "dev": "concurrently \"vite\" \"python backend/virtualPainterWeb.py\"",
