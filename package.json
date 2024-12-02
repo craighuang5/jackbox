@@ -1,5 +1,6 @@
 {
   "name": "party_client",
+  "homepage": "https://craighuang5.github.io/jackbox",
   "version": "0.0.0",
   "private": true,
   "type": "module",
