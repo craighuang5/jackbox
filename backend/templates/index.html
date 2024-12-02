@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Camera Feed</title>
+    <style>
+        /* Apply flexbox to center the content */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            flex-direction: column;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            border: 2px solid #000;
+        }
+    </style>
+</head>
+<body>
+<h1>Live Camera Feed</h1>
+<img src="{{ url_for('video_feed') }}" alt="Live Camera Feed"/>
+
+<script>
+    // Capture keydown events
+    document.addEventListener('keydown', function(event) {
+        let key = event.key.toLowerCase();
+        console.log("Key pressed: " + key);
+
+        fetch('/key_press', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({key: key})
+        }).then(response => response.json())
+          .then(data => {
+              console.log("Response from server:", data);
+          });
+    });
+</script>
+</body>
+</html>
