@@ -95,6 +95,7 @@ document.addEventListener('keydown', function(event) {
 </script>
 
 <template>
+  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
   <v-container class="justify-center fill-height">
     <p class="timer">{{ timer }}</p>
 
