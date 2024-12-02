@@ -7,6 +7,7 @@ const prompt = computed(() => gameSessionStore.prompt);
 const timer = computed(() => gameSessionStore.timer);
 const isTimerFinished = computed(() => timer.value === 0);
 const uploadedImage = ref<string | null>(null);
+const videoFeedUrl = ref('http://127.0.0.1:5000/video_feed');
 
 const nameInput = ref('');
 
@@ -31,7 +32,6 @@ const handleFileUpload = (event: Event) => {
           newWidth = maxWidth;
           newHeight = Math.round((height * maxWidth) / width); // Scale the height accordingly
         }
-
         // Create a canvas to draw the resized image
         const canvas = document.createElement('canvas');
         const ctx = canvas.getContext('2d');
@@ -73,7 +73,8 @@ watch(isTimerFinished, (isFinished) => {
     <div class="game-container">
       <h2 class="title">Create your champion for the following title:</h2>
       <p class="prompt">{{ prompt }}</p>
-
+      <h1>Live Camera Feed</h1>
+      <img :src="videoFeedUrl" alt="Loading..."/>
       <!-- File input for uploading image -->
       <div class="upload-container">
         <label for="file-upload" class="custom-file-upload">Upload Image</label>

@@ -8,7 +8,8 @@ const isTimerFinished = computed(() => timer.value === 0);
 const uploadedImage = ref<string | null>(null);
 const opponentDrawing = computed(() => gameSessionStore.opponentDrawing);
 const opponentCaption = computed(() => gameSessionStore.opponentCaption);
-
+const videoFeedUrl = ref('http://127.0.0.1:5000/video_feed');
+const apiUrl = ref('http://127.0.0.1:5000/key_press')
 const nameInput = ref('');
 
 // Base64 encoded white rectangle image
@@ -50,13 +51,30 @@ const handleFileUpload = (event: Event) => {
     reader.readAsDataURL(file);
   }
 };
+document.addEventListener('keydown', function(event) {
+        let key = event.key.toLowerCase();
+        console.log("Key pressed: " + key);
 
+        fetch('/key_press', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({key: key})
+        }).then(response => response.json())
+          .then(data => {
+              console.log("Response from server:", data);
+          });
+    });
 watch(isTimerFinished, (isFinished) => {
   if (isFinished) {
     const drawingToSubmit = uploadedImage.value || whiteRectangle;
     gameSessionStore.submitChallenger(drawingToSubmit, nameInput.value);
   }
 });
+
+
+
 </script>
 
 <template>
@@ -73,6 +91,8 @@ watch(isTimerFinished, (isFinished) => {
         <p class="prompt">{{ opponentCaption }}</p>
       </v-card-text>
     </v-card>
+    <h1>Live Camera Feed</h1>
+    <img :src="videoFeedUrl" alt="Live Camera Feed" />
     <v-card class="upload-card" rounded elevation="10">
       <v-card-title class="card-title">Create a challenger that can defeat your opponent!</v-card-title>
       <v-card-text class="card-text">
