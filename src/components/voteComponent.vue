@@ -37,8 +37,8 @@ const vote = (option: string) => {
 };
 
 const totalVotes = computed(() => gameSessionStore.players.length - 2); // Exclude the two players in the matchup
-const option1Health = computed(() => 100 - (championPoints.value / totalVotes.value) * 100);
-const option2Health = computed(() => 100 - (challengerPoints.value / totalVotes.value) * 100);
+const option1Health = computed(() => 100 - (challengerPoints.value / totalVotes.value) * 100);
+const option2Health = computed(() => 100 - (championPoints.value / totalVotes.value) * 100);
 
 watch(isTimerFinished, (isFinished) => {
   if (isFinished) {

@@ -15,12 +15,17 @@ function leave() {
   gameSessionStore.leaveGame();
   router.push({ name: 'home' });
 }
+
+const startDisabled = computed(() => {
+  return gameSessionStore.players.length < 3;
+});
 </script>
 
 <template>
   <v-container class="justify-center fill-height" style="background: linear-gradient(37deg, #010103, #00557C);">
     <v-card class="lobby-card" rounded elevation="10">
       <v-card-title class="game-title">Game Code: {{ gameid }}</v-card-title>
+      <v-card-subtitle class="rounds-info">3-8 players</v-card-subtitle>
       <v-card-subtitle class="rounds-info">{{ gameSessionStore.totalRounds }} round(s)</v-card-subtitle>
       <v-divider></v-divider>
       <v-card-text>
@@ -30,7 +35,7 @@ function leave() {
         </ul>
       </v-card-text>
       <v-card-actions class="action-buttons">
-        <v-btn color="primary" class="start-btn" @click="startTutorial()">Start</v-btn>
+        <v-btn color="primary" class="start-btn" @click="startTutorial()" :disabled="startDisabled">Start</v-btn>
         <v-btn color="secondary" class="leave-btn" @click="leave()">Leave</v-btn>
       </v-card-actions>
     </v-card>
