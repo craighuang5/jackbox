@@ -8,8 +8,8 @@ const isTimerFinished = computed(() => timer.value === 0);
 const uploadedImage = ref<string | null>(null);
 const opponentDrawing = computed(() => gameSessionStore.opponentDrawing);
 const opponentCaption = computed(() => gameSessionStore.opponentCaption);
-const videoFeedUrl = ref('http://127.0.0.1:5000/video_feed');
-const apiUrl = 'http://localhost:5000/key_press'
+const videoFeedUrl = ref('https://127.0.0.1:5000/video_feed');
+const apiUrl = 'https://localhost:5000/key_press'
 const nameInput = ref('');
 
 // Base64 encoded white rectangle image
