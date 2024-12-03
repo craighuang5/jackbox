@@ -17,7 +17,7 @@ function leave() {
 }
 
 const startDisabled = computed(() => {
-  return gameSessionStore.players.length < 1;
+  return gameSessionStore.players.length < 3;
 });
 </script>
 

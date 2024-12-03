@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, watch, onMounted, onBeforeUnmount } from 'vue';
+import { ref, computed, watch } from 'vue';
 import { useGameSessionStore } from '@/stores/gameSessionStore';
 
 const gameSessionStore = useGameSessionStore();
@@ -12,32 +12,6 @@ const nameInput = ref('');
 
 // Base64 encoded white rectangle image
 const whiteRectangle = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAWdEVYdFNvZnR3YXJlAFBhaW50Lk5FVCA1LjH3g/eTAAAAtGVYSWZJSSoACAAAAAUAGgEFAAEAAABKAAAAGwEFAAEAAABSAAAAKAEDAAEAAAACAAAAMQECAA4AAABaAAAAaYcEAAEAAABoAAAAAAAAAGAAAAABAAAAYAAAAAEAAABQYWludC5ORVQgNS4xAAMAAJAHAAQAAAAwMjMwAaADAAEAAAABAAAABaAEAAEAAACSAAAAAAAAAAIAAQACAAQAAABSOTgAAgAHAAQAAAAwMTAwAAAAAGOkJsRSTv3MAAAADElEQVQYV2P4//8/AAX+Av6nNYGEAAAAAElFTkSuQmCC';
-const videoFeedUrl = ref('https://127.0.0.1:5001/video_feed');
-function handleKeyPress(event: KeyboardEvent) {
-  let key = event.key.toLowerCase();
-  console.log("Key pressed:", key);
-  // Send key press to Flask backend
-  fetch('http://127.0.0.1:5001/key_press', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ key: key })
-  })
-    .then(response => response.json())
-    .then(data => {
-      console.log("Response from server:", data);
-    })
-    .catch(error => {
-      console.error("Error sending key press:", error);
-    });
-}
-onMounted(() => {
-  window.addEventListener('keydown', handleKeyPress);
-});
-onBeforeUnmount(() => {
-  window.removeEventListener('keydown', handleKeyPress);
-});
 
 const handleFileUpload = (event: Event) => {
   const input = event.target as HTMLInputElement;
@@ -114,7 +88,6 @@ watch(isTimerFinished, (isFinished) => {
         <input type="text" v-model="nameInput" class="name-input" placeholder="Enter champion name here" />
       </div>
     </div>
-    <img :src="videoFeedUrl" alt="Live Camera Feed" />
   </v-container>
 </template>
 
