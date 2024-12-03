@@ -4,9 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "run-p type-check \"build-only {@}\" --",
-    "start": "vite preview",
+    "dev": "concurrently \"vite\" \"python backend/virtualPainterWeb.py\"",
+    "build": "run-s install-python-deps type-check build-only",
+    "start": "concurrently \"vite preview\" \"python backend/virtualPainterWeb.py\"",
     "preview": "vite preview",
     "test:unit": "vitest",
     "build-only": "vite build",
