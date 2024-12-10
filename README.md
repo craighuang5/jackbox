@@ -8,13 +8,15 @@ This client is built with [VueJS]() & [Vuetfify](). It provides an interface for
 
 1) Clone this repository from Github:
 
-```git clone https://github.com/imdarkmode/jackbox```
+```git clone git@github.com:craighuang5/jackbox.git```
 
 2) Install dependencies:
 
 ```npm install```
 
-3) Run the client by reading *Development* or *Production* below.
+3) Go to the following file: ```jackbox/src/constants/originConfig.ts``` and edit the file to the following: ```export const serverUrl = 'http://localhost:3000'```. You are most likely testing the jackbox_server repository on your local machine on port 3000. Therefore, the client code will communicate with the development server on your local machine. ```https://jackbox-server.onrender.com``` is our remote server deployed on the Render service.
+
+4) Run the client by reading *Development* or *Production* below.
 
 ## Development
 
